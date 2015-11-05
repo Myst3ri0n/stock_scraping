@@ -1,6 +1,7 @@
 import urllib
 import json
 import time
+import os
 
 print "Please specify a time frame for data: "
 print "Formats: 1D, 1M, 1Y" 
@@ -29,3 +30,5 @@ while i<len(symbols):
 		newfile.write(csv)
 	i+=1
 newfile.close()
+
+print fileName+".csv has been created @ "+os.getcwd() 
