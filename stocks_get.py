@@ -16,6 +16,8 @@ fileName = raw_input('-->')
 print '\n'
 print "Please wait..."+'\n'
 
+start_time = time.clock()
+
 #add stocks here to pull into csv
 symbols = ["AAPL","TSLA","GOOG","NFLX","AMD","GE","F","GM","CDW","AMZN","NVDA","ATVI","DG","MOS","CF"]
 
@@ -43,6 +45,9 @@ while i<len(symbols):
 	i+=1
 newfile.close()
 
+print "Operation completed sucessfully:"
+
 print "Number of stocks scraped "+str(i)+'\n'
 print "Number of lines written "+str(count)+'\n'
+print "Time taken... "+str(round(time.clock() - start_time,3)), "seconds"+'\n'
 print fileName+".csv has been created @ "+os.getcwd()+'\n' 
