@@ -2,14 +2,17 @@ import urllib
 import json
 import time
 
-symbols = ["AAPL","TSLA","GOOG","NFLX","AMD","GE","F","GM"]
-
-newfile = open('stocks.csv','w')
-
 print "Please specify a time frame for data: "
 print "Formats: 1D, 1M, 1Y" 
-
 timeFrame=raw_input()
+
+print "Please specify a file name: "
+fileName = raw_input()
+
+symbols = ["AAPL","TSLA","GOOG","NFLX","AMD","GE","F","GM","CDW","AMZN","NVDA","ATVI","DG","MOS","CF"]
+
+newfile = open(fileName+'.csv','w')
+
 
 i=0
 while i<len(symbols):
