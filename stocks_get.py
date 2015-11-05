@@ -4,9 +4,16 @@ import time
 
 symbols = ["AAPL","TSLA","GOOG","NFLX","AMD","GE","F","GM"]
 
+newfile = open('stocks.csv','w')
+
+print "Please specify a time frame for data: "
+print "Formats: 1D, 1M, 1Y" 
+
+timeFrame=raw_input()
+
 i=0
 while i<len(symbols):
-	url = "http://www.bloomberg.com/markets/chart/data/1D/"+symbols[i]+":US"
+	url = "http://www.bloomberg.com/markets/chart/data/"+timeFrame+"/"+symbols[i]+":US"
 	htmltext = urllib.urlopen(url)
 	data =json.load(htmltext)
 	datapoints = data["data_values"]
@@ -15,7 +22,7 @@ while i<len(symbols):
 		date = point[0]
 		price = point[1]
 		date = time.strftime('%m/%d/%Y %H:%M:%S',time.gmtime(int(date)/1000.))
-		print date," - ",price
-
-	print symbols[i]," number of data points", len(datapoints)
+		csv = symbols[i]+','+str(date)+','+str(price)+'\n'
+		newfile.write(csv)
 	i+=1
+newfile.close()
