@@ -45,8 +45,7 @@ while i<len(symbols):
 	i+=1
 newfile.close()
 
-print "Operation completed sucessfully:"
-
+print "Operation completed sucessfully:"+'\n'
 print "Number of stocks scraped "+str(i)+'\n'
 print "Number of lines written "+str(count)+'\n'
 print "Time taken... "+str(round(time.clock() - start_time,3)), "seconds"+'\n'
