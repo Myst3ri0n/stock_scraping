@@ -24,8 +24,9 @@ extractType=raw_input('-->')
 start_time = time.clock()
 
 #add stocks here to pull into csv
-symbols = ["AAPL","TSLA","GOOG","NFLX","AMD","GE","F","GM","CDW","AMZN","NVDA","ATVI","DG","MOS","CF"]
-#symbols = ["AAPL"]
+symbols = ["AAPL","TSLA","GOOG","NFLX","AMD","GE","F","GM","CDW","AMZN","NVDA","ATVI","DG","MOS","CF",
+			"IFON","GE","BAC","FL","UBNT","RAI","MO","CRAY","FB","AKAM","CAT","INTC","IBM","DIS","COKE"]
+
 
 if extractType=='DB':	
 	print "Please wait..."+'\n'
@@ -45,7 +46,6 @@ if extractType=='DB':
 			count +=1
 			dbc.execute("INSERT INTO stocks.ticks (symbol,time,price) VALUES ('"+symbols[i]+"','"+date+"','"+str(price)+"');")
 		i+=1
-	#newfile.close()
 	conn.commit()
 
 	print "Operation completed sucessfully:"+'\n'
@@ -76,11 +76,11 @@ else:
 			newfile.write(csv)
 			count +=1
 		i+=1
-	#newfile.close()
-	conn.commit()
+	newfile.close()
 
 	print "Operation completed sucessfully:"+'\n'
 	print "Number of stocks scraped "+str(i)+'\n'
 	print "Number of lines written "+str(count)+'\n'
+	print "Time taken... "+str(round(time.clock() - start_time,3)), "seconds"+'\n'
 	print fileName+".csv has been created @ "+os.getcwd()+'\n'
 
