@@ -5,6 +5,7 @@ import os
 import includes
 import config
 import mysql.connector
+import re
 
 #dbinfo
 conn=mysql.connector.connect(user='root',password='root',host='localhost',database='stocks')
@@ -12,15 +13,30 @@ dbc=conn.cursor()
 
 
 #just getting info from user
-print '\n\n'
+print '\n'
 print "This program scrapes and loads a list of stocks from the web to a database."+'\n\n'
-print "Please specify a time frame for data: "
-print "Formats: 1D, 1M, 1Y"+'\n' 
-timeFrame=raw_input('-->')
 
-print "Please select extract type- CSV or DB: "+'\n'
-extractType=raw_input('-->')
+print "what operation would you like to preform:"+'\n'
+print "1. Dowload stock prices to CSV."
+print "2. Import stock prices into the database."
+print "3. Import basic financials into the database."+'\n'
+opSelect=raw_input('-->')
 
+
+if opSelect =='1':
+	print "Please specify a time frame for data: "
+	print "Formats: 1D, 1M, 1Y"+'\n' 
+	timeFrame=raw_input('-->')
+	extractType='CSV'
+elif opSelect =='2':
+	print "Please specify a time frame for data: "
+	print "Formats: 1D, 1M, 1Y"+'\n' 
+	timeFrame=raw_input('-->')
+	extractType='DB'
+else:
+	extractType='basicFin'
+
+#start clock to see how long the program took.
 start_time = time.clock()
 
 #add stocks here to pull into csv
@@ -41,10 +57,9 @@ if extractType=='DB':
 		for point in datapoints:
 			date = point[0]
 			price = point[1]
-			#converting epoch time to human readable
 			date = includes.convepoch(date)
 			count +=1
-			dbc.execute("INSERT INTO stocks.ticks (symbol,time,price) VALUES ('"+symbols[i]+"','"+date+"','"+str(price)+"');")
+			dbc.execute("INSERT INTO stocks.ticks2 (symbol,time,price) VALUES ('"+symbols[i]+"','"+date+"','"+str(price)+"');")
 		i+=1
 	conn.commit()
 
@@ -52,7 +67,7 @@ if extractType=='DB':
 	print "Number of stocks scraped "+str(i)+'\n'
 	print "Number of lines imported "+str(count)+'\n'
 	print "Time taken... "+str(round(time.clock() - start_time,3)), "seconds"+'\n'
-else:
+elif extractType=='CSV':
 	print "Please specify a file name:"
 	print "all files automaticly export as a .csv file."+'\n'
 	fileName = raw_input('-->')
@@ -70,7 +85,6 @@ else:
 		for point in datapoints:
 			date = point[0]
 			price = point[1]
-			#converting epoch time to human readable
 			date = includes.convepoch(date)
 			csv = symbols[i]+','+str(date)+','+str(price)+'\n'
 			newfile.write(csv)
@@ -83,4 +97,7 @@ else:
 	print "Number of lines written "+str(count)+'\n'
 	print "Time taken... "+str(round(time.clock() - start_time,3)), "seconds"+'\n'
 	print fileName+".csv has been created @ "+os.getcwd()+'\n'
+else:
+	print "Under Construction: Try again Soon!"
+	
 
