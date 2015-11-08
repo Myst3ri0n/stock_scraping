@@ -42,9 +42,9 @@ else:
 start_time = time.clock()
 
 #add stocks here to pull into csv
-symbols = ["AAPL","TSLA","GOOG","NFLX","AMD","GE","F","GM","CDW","AMZN","NVDA","ATVI","DG","MOS","CF",
-			"IFON","GE","BAC","FL","UBNT","RAI","MO","CRAY","FB","AKAM","CAT","INTC","IBM","DIS","COKE","CMG"]
-#symbols =["AAPL"]
+#symbols = ["AAPL","TSLA","GOOG","NFLX","AMD","GE","F","GM","CDW","AMZN","NVDA","ATVI","DG","MOS","CF",
+#			"IFON","GE","BAC","FL","UBNT","RAI","MO","CRAY","FB","AKAM","CAT","INTC","IBM","DIS","COKE","CMG"]
+symbols =["AAPL"]
 
 if extractType=='DB':	
 	print "Please wait..."+'\n'
@@ -125,12 +125,25 @@ else:
 			#print hySplit[0]
 			if result == 'range':
 				query = "INSERT INTO stocks.basic_fin (time,symbol,day_range_low, day_range_high) VALUES('"+includes.nowDatetime()+"','"+symbols[i]+"','"+hySplit[0]+"','"+hySplit[1]+"');"
-				#print query
+				#dbc.execute(query)
+			elif result =='eps':
+				query = "UPDATE stocks.basic_fin SET eps="+str(results[0][1])+" where symbol='"+symbols[i]+"' order by id desc limit 1;"
 				dbc.execute(query)
-				count +=1
-	
+			elif result =='pe_ratio':
+				query = "UPDATE stocks.basic_fin SET pe_ratio="+str(results[0][1])+" where symbol='"+symbols[i]+"' order by id desc limit 1;"
+				dbc.execute(query)
+			elif result =='beta':
+				query = "UPDATE stocks.basic_fin SET beta="+str(results[0][1])+" where symbol='"+symbols[i]+"' order by id desc limit 1;"
+				dbc.execute(query)
+			elif result =='shares':
+				query = "UPDATE stocks.basic_fin SET shares='"+str(results[0][1])+"' where symbol='"+symbols[i]+"' order by id desc limit 1;"
+				dbc.execute(query)
+			elif result =='inst_own':
+				query = "UPDATE stocks.basic_fin SET inst_owner='"+str(results[0][1])+"' where symbol='"+symbols[i]+"' order by id desc limit 1;"
+				dbc.execute(query)
+				
 
-			#dbc.execute("INSERT INTO stocks.ticks2 (symbol,time,price) VALUES ('"+symbols[i]+"','"+date+"','"+str(price)+"');")
+		count +=1
 		i+=1
 	conn.commit()
 
