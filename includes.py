@@ -6,3 +6,9 @@ def convepoch(date):
 
 def nowDatetime():
 	return (time.strftime("%Y-%m-%d %H:%M:%S"))
+
+#Prints file linecount (Excluding White Space)
+def lineCount(txtFile):
+	num_lines = sum(1 for line in open(txtFile	))
+	print num_lines
+	return num_lines
